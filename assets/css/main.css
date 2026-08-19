@@ -10,11 +10,15 @@ body
 	overflow-x: hidden;
 	color: #313131;
 }
+:root{
+	--text-on-image: #e8e5de;
+	--text-on-image-shadow: rgba(0, 0, 0, 0.55);
+}
 .black{
 	color: #313131;
 }
 .white{
-	background: #fff ;
+	background: #e8e5de ;
 }
 .purple{
 	background: #4a148c;
@@ -142,6 +146,35 @@ body
 .header-subtitle{
 	font-size: 20px;
 	letter-spacing: 3px;
+}
+
+.header,
+.twitter-feed,
+.testimonial{
+	color: #e8e5de;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+.header .navbar-default .navbar-brand,
+.header .navbar-default .navbar-brand:focus,
+.header .navbar-default .navbar-brand:hover,
+.header .navbar-default .navbar-nav>li>a,
+.header .navbar-default .navbar-nav>li>a:focus,
+.header .navbar-default .navbar-nav>li>a:hover,
+.header .navbar-default .navbar-nav>.active>a,
+.header .navbar-default .navbar-nav>.active>a:focus,
+.header .navbar-default .navbar-nav>.active>a:hover,
+.testimonial .section-title{
+	color: #e8e5de;
+}
+.header-title{
+	font-weight: 400;
+}
+.header-subtitle,
+.header .navbar-default .navbar-nav>li>a{
+	font-weight: 400;
+}
+.testimonial-detail{
+	font-weight: 300;
 }
 /*=================================================
 ||				4. Our Service
@@ -515,4 +548,11 @@ a .rss:hover{
 	.header-table{
 		max-height: 627px;
 	}
+}
+
+.testimonial,
+.testimonial .section-title,
+.twitter-feed{
+	color: #e8e5de;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
 }

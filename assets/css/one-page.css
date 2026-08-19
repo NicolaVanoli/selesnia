@@ -5,6 +5,11 @@
 	background-size: cover;
 	background-attachment: fixed;
 	height: 100vh;
-	color: #fff;
+	color: #e8e5deec;
 	text-transform: uppercase;
+}
+
+.header{
+	color: #e8e5deec;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
 }
