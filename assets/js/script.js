@@ -45,7 +45,7 @@ $(document).ready(function() {
         loop: true
     });
 
-    $('.twitter-owl').owlCarousel({
+    $('.products-owl').owlCarousel({
         items: 1,
         nav: true,
         navText: false,

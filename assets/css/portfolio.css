@@ -1,3 +1,27 @@
 .section-background{
-	background: url('../images/portfolio.png');
+	background: url('../images/about.png');
+}
+.team{
+	background: #ededed;
+}
+.team-item{
+	background: #f3f3f3;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.team-img{
+	display: block;
+	width: 100%;
+}
+.team-item-name{
+	font-size: 14px;
+	margin: 0px;
+	padding: 20px 10px 0px;
+}
+.team-item-id{
+	color: #a3a2a2;
+	font-size: 11px;
+	text-transform: uppercase;
+	padding: 0px 10px 30px;
+	margin: 0px;
 }
