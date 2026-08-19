@@ -61,7 +61,7 @@ body
 	border: 2px solid #f6f0e1ec;
 	color: #f6f0e1ec;
 	font-size: 35px;
-	padding: 20px 25px;
+	padding: 15px 25px;
 	height: auto;
 	font-weight: 2000;
 	letter-spacing: 5px;
@@ -81,7 +81,7 @@ body
 .navbar-default {
     background-color: transparent;
     border-color: transparent;
-    padding-top: 50px;
+    padding: 50px 0px;
 }
 .navbar-default .navbar-nav>li>a{
 	color: #f6f0e1ec;
