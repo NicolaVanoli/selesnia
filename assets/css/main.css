@@ -325,7 +325,36 @@ body
 ==================================================*/
 footer{
 	background: #eaeaea;
-	padding: 20px 0px;
+	padding: 36px 0px 30px;
+}
+.legal-footer{
+	color: #666;
+	font-size: 13px;
+}
+.footer-contact{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 24px;
+	justify-content: center;
+	padding-bottom: 24px;
+	text-align: center;
+}
+.footer-contact a,
+.footer-company a{
+	color: #555;
+	text-decoration: underline;
+}
+.footer-contact a:hover,
+.footer-company a:hover{
+	color: #7b4397;
+}
+.footer-company{
+	border-top: 1px solid #d5d5d5;
+	padding-top: 22px;
+	text-align: center;
+}
+.footer-company p{
+	margin: 0 0 10px;
 }
 .copy{
 	font-size: 14px;
