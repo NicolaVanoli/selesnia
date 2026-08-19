@@ -30,6 +30,13 @@
 }
 .team-img{
 	width: 100%;
+	height: 260px;
+	object-fit: cover;
+}
+@media (max-width: 767px){
+	.team-img{
+		height: 170px;
+	}
 }
 .team-item-name{
 	font-size: 14px;

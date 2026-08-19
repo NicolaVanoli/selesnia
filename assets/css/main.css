@@ -170,6 +170,29 @@ body
 .testimonial-detail{
 	font-weight: 300;
 }
+.team-item{
+	background: #f3f3f3;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.team-img{
+	display: block;
+	width: 100%;
+	height: 260px;
+	object-fit: cover;
+}
+.team-item-name{
+	font-size: 14px;
+	margin: 0px;
+	padding: 20px 10px 0px;
+}
+.team-item-id{
+	color: #a3a2a2;
+	font-size: 11px;
+	text-transform: uppercase;
+	padding: 0px 10px 30px;
+	margin: 0px;
+}
 @media (max-width: 767px){
 	.navbar-default{
 		padding: 15px 0px;
@@ -191,6 +214,9 @@ body
 	.header-subtitle{
 		font-size: 14px;
 		letter-spacing: 2px;
+	}
+	.team-img{
+		height: 170px;
 	}
 }
 /*=================================================
