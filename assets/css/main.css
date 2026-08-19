@@ -403,6 +403,11 @@ body
 ||				8. Note
 ==================================================*/
 .note{
+	background-image: url('../images/header.png');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
 	color: #dadada;
 }
 .quote{
