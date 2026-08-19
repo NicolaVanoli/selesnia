@@ -217,6 +217,9 @@ body
 .twitter-feed{
 	color: #f6f0e1ec;
 }
+.products-owl{
+	display: block;
+}
 .item{
 	text-align: center;
 }
