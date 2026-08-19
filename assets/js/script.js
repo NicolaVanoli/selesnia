@@ -48,9 +48,15 @@ $(document).ready(function() {
     $('.products-owl').owlCarousel({
         items: 1,
         nav: true,
-        navText: false,
+        navText: [
+            '<i class="ion-chevron-left" aria-label="Previous product"></i>',
+            '<i class="ion-chevron-right" aria-label="Next product"></i>'
+        ],
         dots: false,
-        loop: true
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true
     });
 
 });
