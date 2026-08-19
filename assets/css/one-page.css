@@ -1,15 +1,12 @@
 .header{
 	background: url('../images/header.png');
+	background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('../images/header.png');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
 	background-attachment: fixed;
 	height: 100vh;
-	color: #e8e5deec;
 	text-transform: uppercase;
-}
-
-.header{
-	color: #e8e5deec;
+	color: #f6f0e1ec;
 	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
 }
