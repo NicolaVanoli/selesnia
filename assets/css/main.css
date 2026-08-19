@@ -193,6 +193,17 @@ body
 	padding: 0px 10px 30px;
 	margin: 0px;
 }
+.about .row{
+	text-align: center;
+}
+.about .col-md-12{
+	float: none;
+	max-width: 900px;
+	margin: 0px auto;
+}
+.about .about-detail{
+	transform: none;
+}
 @media (max-width: 767px){
 	.navbar-default{
 		padding: 15px 0px;
