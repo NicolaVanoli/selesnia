@@ -20,8 +20,8 @@ body
 .white{
 	background: #e8e5de ;
 }
-.purple{
-	background: #4a148c;
+.red{
+	background: #6d180f;
 }
 .section-wrapper{
 	padding-top: 90px;
@@ -58,7 +58,7 @@ body
 
 			/*navbar*/
 .navbar-default .navbar-brand{
-	border: 2px solid #f6f0e1ec;
+	border: 2px solid #6d180f;
 	color: #f6f0e1ec;
 	font-size: 35px;
 	padding: 15px 25px;
