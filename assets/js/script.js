@@ -54,9 +54,13 @@ $(document).ready(function() {
         ],
         dots: false,
         loop: true,
-        autoplay: true,
+        autoPlay: true,
         autoplayTimeout: 5000,
         autoplayHoverPause: true
     });
+
+    window.setInterval(function() {
+        $('.products-owl').trigger('next.owl.carousel');
+    }, 5000);
 
 });
