@@ -170,6 +170,29 @@ body
 .testimonial-detail{
 	font-weight: 300;
 }
+@media (max-width: 767px){
+	.navbar-default{
+		padding: 15px 0px;
+	}
+	.navbar-default .navbar-brand{
+		font-size: 24px;
+		padding: 10px 16px;
+		letter-spacing: 3px;
+	}
+	.navbar-default .navbar-toggle{
+		margin-top: 3px;
+		margin-bottom: 3px;
+	}
+	.header-title{
+		font-size: 32px;
+		letter-spacing: 4px;
+		line-height: 1.25;
+	}
+	.header-subtitle{
+		font-size: 14px;
+		letter-spacing: 2px;
+	}
+}
 /*=================================================
 ||				4. Our Service
 ==================================================*/
