@@ -107,6 +107,11 @@ body
     padding-top: 8px;
     padding-bottom: 8px;
 }
+@media (min-width: 600px){
+	.navbar-default .navbar-nav{
+		margin-top: 7.5px;
+	}
+}
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
 	background: transparent;
 }
