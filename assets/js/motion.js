@@ -37,7 +37,7 @@
     }
     flowPulses.forEach(function (flowPulse) {
       flowPulse.style.strokeDashoffset = String(1000 - (flowProgress * 1000));
-      flowPulse.style.opacity = String(.18 + (flowProgress * .82));
+      flowPulse.style.opacity = String(.78 + (flowProgress * .82));
     });
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
