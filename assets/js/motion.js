@@ -9,6 +9,7 @@
   var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
   var scrollTitlePositions = [];
   var scrollStopTimer;
+  var filamentCanvas = document.querySelector('.hero-filaments');
 
   scrollTitles.forEach(function (title) {
     title.classList.add('scroll-title');
@@ -25,6 +26,114 @@
     revealItems.forEach(function (item) { item.classList.add('is-visible'); });
     return;
   }
+
+  function initHeroFilaments() {
+    if (!filamentCanvas) return;
+
+    var context = filamentCanvas.getContext('2d');
+    var hero = filamentCanvas.parentElement;
+    var filaments = [];
+    var pointer = { x: 0, y: 0, active: false };
+    var width = 0;
+    var height = 0;
+    var pixelRatio = 1;
+    var animationFrame;
+
+    function createFilaments() {
+      filaments = [];
+      var count = width < 600 ? 20 : 40;
+      var centerX = width * .5;
+      var centerY = height * .38;
+
+      for (var index = 0; index < count; index += 1) {
+        var angle = (Math.PI * 2 * index / count) + (Math.random() - .5) * .035;
+        var distanceX = Math.cos(angle) > 0 ? (width - centerX) / Math.cos(angle) : -centerX / Math.cos(angle);
+        var distanceY = Math.sin(angle) > 0 ? (height - centerY) / Math.sin(angle) : -centerY / Math.sin(angle);
+        var distance = Math.min(Math.abs(distanceX), Math.abs(distanceY));
+        var endX = centerX + Math.cos(angle) * distance;
+        var endY = centerY + Math.sin(angle) * distance;
+
+        filaments.push({
+          angle: angle,
+          amplitude: 14 + Math.random() * 26,
+          endX: endX,
+          endY: endY,
+          phase: Math.random() * Math.PI * 2,
+          speed: .00028 + Math.random() * .00024,
+          width: .7 + Math.random() * 1
+        });
+      }
+    }
+
+    function resize() {
+      var bounds = hero.getBoundingClientRect();
+      width = bounds.width;
+      height = bounds.height;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      filamentCanvas.width = width * pixelRatio;
+      filamentCanvas.height = height * pixelRatio;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      createFilaments();
+    }
+
+    function draw(timestamp) {
+      context.clearRect(0, 0, width, height);
+      var centerX = width * .5;
+      var centerY = height * .38;
+
+      filaments.forEach(function (filament) {
+        context.beginPath();
+        context.moveTo(centerX, centerY);
+
+        for (var pointIndex = 1; pointIndex <= 32; pointIndex += 1) {
+          var progress = pointIndex / 32;
+          var baseX = centerX + (filament.endX - centerX) * progress;
+          var baseY = centerY + (filament.endY - centerY) * progress;
+          var wave = Math.sin(timestamp * filament.speed + filament.phase + progress * 5.5) * filament.amplitude * Math.sin(progress * Math.PI);
+          var normalX = -Math.sin(filament.angle);
+          var normalY = Math.cos(filament.angle);
+          var interaction = 0;
+
+          if (pointer.active) {
+            var mouseDistanceX = baseX - pointer.x;
+            var mouseDistanceY = baseY - pointer.y;
+            var mouseDistance = Math.sqrt(mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY);
+            var influence = Math.exp(-(mouseDistance * mouseDistance) / (2 * 210 * 210));
+            var mouseNormalDistance = (mouseDistanceX * normalX + mouseDistanceY * normalY) / (mouseDistance || 1);
+            interaction = influence * mouseNormalDistance * 92;
+            wave += interaction * Math.sin(progress * Math.PI);
+          }
+
+          var pointX = baseX + normalX * wave;
+          var pointY = baseY + normalY * wave;
+          if (pointIndex === 32) {
+            pointX = filament.endX;
+            pointY = filament.endY;
+          }
+          context.lineTo(pointX, pointY);
+        }
+
+        context.strokeStyle = 'rgba(180, 239, 255, ' + (.24 + Math.abs(Math.sin(filament.phase)) * .18) + ')';
+        context.lineWidth = filament.width;
+        context.stroke();
+      });
+
+      animationFrame = window.requestAnimationFrame(draw);
+    }
+
+    hero.addEventListener('pointermove', function (event) {
+      var bounds = hero.getBoundingClientRect();
+      pointer.x = event.clientX - bounds.left;
+      pointer.y = event.clientY - bounds.top;
+      pointer.active = true;
+    });
+    hero.addEventListener('pointerleave', function () { pointer.active = false; });
+    window.addEventListener('resize', resize);
+    resize();
+    animationFrame = window.requestAnimationFrame(draw);
+  }
+
+  initHeroFilaments();
 
   var observer = new IntersectionObserver(function (entries, observerInstance) {
     entries.forEach(function (entry) {

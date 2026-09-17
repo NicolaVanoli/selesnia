@@ -28,6 +28,16 @@ main { position: relative; }
   position: absolute;
   z-index: 2;
 }
+.hero-filaments {
+  filter: drop-shadow(0 0 6px rgba(25, 201, 255, .45));
+  height: 100%;
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
 .flow-pulse svg { height: 100%; overflow: visible; width: 100%; }
 .flow-pulse path { fill: none; vector-effect: non-scaling-stroke; }
 .flow-pulse__main {
