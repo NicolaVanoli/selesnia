@@ -97,7 +97,7 @@ main { position: relative; }
   left: 0;
   position: fixed;
   right: 0;
-  top: 0;
+  top: 20px;
   z-index: 20;
   pointer-events: none;
 }
@@ -110,8 +110,8 @@ main { position: relative; }
   display: flex;
   gap: 12px;
   justify-content: flex-start;
-  min-height: 76px;
-  padding: 14px 18px;
+  min-height: 100px;
+  padding: 18px 20px 16px;
   width: min(100%, 1180px);
   margin: 0 auto;
   box-sizing: border-box;
@@ -144,10 +144,10 @@ main { position: relative; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font: 700 1rem/1 var(--body);
+  font: 700 1.5rem/1 var(--body);
   letter-spacing: .14em;
-  min-height: 44px;
-  padding: 12px 18px 10px;
+  min-height: 48px;
+  padding: 14px 20px 12px;
   text-decoration: none;
   text-transform: lowercase;
   background: transparent;
@@ -157,8 +157,8 @@ main { position: relative; }
   border: 0;
   cursor: pointer;
   display: block;
-  flex: 0 0 138px;
-  height: 64px;
+  flex: 0 0 156px;
+  height: 72px;
   overflow: visible;
   padding: 0;
   perspective: 600px;
@@ -167,8 +167,8 @@ main { position: relative; }
 }
 .cube {
   display: block;
-  height: 56px;
-  width: 132px;
+  height: 82px;
+  width: 150px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform .4s;
@@ -188,9 +188,9 @@ main { position: relative; }
 .side {
   align-items: center;
   display: flex;
-  font-size: .72rem;
+  font-size: .78rem;
   font-weight: 700;
-  height: 56px;
+  height: 62px;
   justify-content: center;
   letter-spacing: .09em;
   position: absolute;
@@ -201,12 +201,12 @@ main { position: relative; }
 .top {
   background: #46b3e6;
   color: var(--ink);
-  transform: rotateX(90deg) translateZ(28px);
+  transform: rotateX(90deg) translateZ(31px);
 }
 .front {
   background: #222229;
   color: var(--paper);
-  transform: translateZ(28px);
+  transform: translateZ(31px);
 }
 .experience-nav-center a[aria-current="page"] .front,
 .experience-nav-links a[aria-current="page"] .front {
