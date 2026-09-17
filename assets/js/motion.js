@@ -231,7 +231,7 @@
     }
     scrollTitles.forEach(function (title, index) {
       var titleProgress = (window.scrollY + window.innerHeight * .5 - scrollTitlePositions[index] - title.offsetHeight * .5) / window.innerHeight;
-      var titleOffset = Math.max(-40, Math.min(40, titleProgress * 28));
+      var titleOffset = Math.max(-40, Math.min(40, titleProgress * 2)) - 10;
       title.style.transform = 'translate3d(0, ' + titleOffset + 'px, 0)';
     });
     ticking = false;
