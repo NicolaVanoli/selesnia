@@ -5,6 +5,7 @@
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
   var flowPulses = document.querySelectorAll('.flow-pulse__main');
+  var flowContainer = document.querySelector('.flow-pulse');
   var scrollStopTimer;
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -28,9 +29,15 @@
   function updateScrollState() {
     var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     var scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+    var flowProgress = scrollProgress;
+    if (flowContainer) {
+      var flowStart = flowContainer.getBoundingClientRect().top + window.scrollY;
+      var flowTravel = Math.max(flowContainer.offsetHeight - window.innerHeight, 1);
+      flowProgress = Math.max(0, Math.min(1, (window.scrollY - flowStart) / flowTravel));
+    }
     flowPulses.forEach(function (flowPulse) {
-      flowPulse.style.strokeDashoffset = String(1000 - (scrollProgress * 1120));
-      flowPulse.style.opacity = String(.18 + (scrollProgress * .82));
+      flowPulse.style.strokeDashoffset = String(1000 - (flowProgress * 1000));
+      flowPulse.style.opacity = String(.18 + (flowProgress * .82));
     });
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
