@@ -78,7 +78,7 @@ main { position: relative; }
 .experience-nav-center {
   flex: 1;
   justify-content: center;
-  gap: 6px;
+  gap: 0;
   min-width: 0;
   padding-left: 8px;
 }
@@ -136,7 +136,7 @@ main { position: relative; }
     padding: 8px 10px;
   }
   .experience-nav-center {
-    gap: 5px;
+    gap: 0;
     justify-content: flex-start;
     overflow-x: auto;
     scrollbar-width: none;
