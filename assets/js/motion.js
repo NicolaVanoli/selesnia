@@ -5,12 +5,80 @@
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
   var flowPulses = document.querySelectorAll('.flow-pulse__main');
+  var flowPulsePath = document.querySelector('.flow-pulse__main');
   var flowContainer = document.querySelector('.flow-pulse');
   var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
   var scrollTitlePositions = [];
   var scrollStopTimer;
   var filamentCanvas = document.querySelector('.hero-filaments');
   var scrollProgressBar;
+  var flowTarget = 0;
+  var flowPosition = 0;
+  var flowTextTargets = document.querySelectorAll('.section-heading, .section-lead, .section-body, .service-row h2, .team-card h2, .contact-detail a');
+
+  function buildFlowPath() {
+    if (!flowPulsePath || !flowContainer || !flowContainer.parentElement) return;
+    var flowSvg = flowPulsePath.ownerSVGElement;
+    var flowRoot = flowContainer.parentElement;
+    var flowBounds = flowRoot.getBoundingClientRect();
+    var flowHeight = Math.max(flowRoot.offsetHeight, 1);
+    var sectionNodes = flowRoot.classList.contains('experience-section')
+      ? [flowRoot]
+      : Array.prototype.slice.call(flowRoot.querySelectorAll(':scope > .experience-section'));
+
+    if (!sectionNodes.length) sectionNodes = [flowRoot];
+
+    var points = sectionNodes.map(function (sectionNode, index) {
+      var sectionBounds = sectionNode.getBoundingClientRect();
+      var textNode = sectionNode.querySelector('.section-grid, .page-content > .section-grid') || sectionNode.firstElementChild;
+      var textBounds = textNode ? textNode.getBoundingClientRect() : sectionBounds;
+      var leftSafeX = textBounds.left - flowBounds.left - 30;
+      var rightSafeX = textBounds.right - flowBounds.left + 30;
+      var safeX = index % 2 === 0 ? leftSafeX : rightSafeX;
+
+      return {
+        x: Math.max(38, Math.min(962, safeX / Math.max(flowBounds.width, 1) * 1000)),
+        startY: Math.max(0, (sectionBounds.top - flowBounds.top) / flowHeight * 1400),
+        endY: Math.min(1400, (sectionBounds.bottom - flowBounds.top) / flowHeight * 1400)
+      };
+    });
+
+    var firstPoint = points[0];
+    var path = 'M' + firstPoint.x.toFixed(2) + ' 0 V' + firstPoint.startY.toFixed(2);
+    points.forEach(function (point, index) {
+      var nextPoint = points[index + 1];
+      path += ' V' + point.endY.toFixed(2);
+      if (nextPoint) {
+        var midpoint = (point.endY + nextPoint.startY) * .5;
+        path += ' C' + point.x.toFixed(2) + ' ' + midpoint.toFixed(2) + ' ' + nextPoint.x.toFixed(2) + ' ' + midpoint.toFixed(2) + ' ' + nextPoint.x.toFixed(2) + ' ' + nextPoint.startY.toFixed(2);
+      }
+    });
+
+    flowPulsePath.removeAttribute('d');
+    flowSvg.setAttribute('viewBox', '0 0 1000 1400');
+    flowPulsePath.setAttribute('d', path);
+    flowContainer.querySelectorAll('.flow-pulse__rail').forEach(function (rail) { rail.remove(); });
+  }
+
+  function syncFlowDash() {
+    if (!flowPulsePath || !flowTextTargets.length) return;
+    var widestText = 0;
+    flowTextTargets.forEach(function (textTarget) {
+      widestText = Math.max(widestText, textTarget.getBoundingClientRect().width);
+    });
+    var dashLength = Math.max(76, Math.min(156, widestText * .16));
+    flowPulsePath.style.strokeDasharray = dashLength + ' ' + (1000 - dashLength);
+  }
+
+  if (flowPulsePath) {
+    flowPulsePath.removeAttribute('d');
+    flowPulsePath.style.strokeDashoffset = '1000';
+    syncFlowDash();
+    buildFlowPath();
+    window.addEventListener('resize', syncFlowDash);
+    window.addEventListener('resize', buildFlowPath);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFlowPath);
+  }
 
   function initScrollProgress() {
     scrollProgressBar = document.createElement('div');
@@ -214,14 +282,11 @@
       scrollProgressBar.setAttribute('aria-valuenow', String(progressPercent));
     }
     var flowProgress = scrollProgress;
-    if (flowContainer) {
-      var flowStart = flowContainer.getBoundingClientRect().top + window.scrollY;
-      var flowTravel = Math.max(flowContainer.offsetHeight - window.innerHeight, 1);
-      flowProgress = Math.max(0, Math.min(1, (window.scrollY - flowStart) / flowTravel));
-    }
+    flowTarget = flowProgress;
+    flowPosition = flowTarget;
     flowPulses.forEach(function (flowPulse) {
-      flowPulse.style.strokeDashoffset = String(1000 - (flowProgress * 1000));
-      flowPulse.style.opacity = String(.78 + (flowProgress * .82));
+      flowPulse.style.strokeDashoffset = String(1000 - (flowPosition * 1000));
+      flowPulse.style.opacity = String(.72 + (flowPosition * .78));
     });
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
