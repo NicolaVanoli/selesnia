@@ -57,17 +57,18 @@
     flowPulsePath.removeAttribute('d');
     flowSvg.setAttribute('viewBox', '0 0 1000 1400');
     flowPulsePath.setAttribute('d', path);
+    flowPulsePath.setAttribute('pathLength', '1');
     flowContainer.querySelectorAll('.flow-pulse__rail').forEach(function (rail) { rail.remove(); });
+    var rail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    rail.setAttribute('class', 'flow-pulse__rail');
+    rail.setAttribute('d', path);
+    rail.setAttribute('pathLength', '1');
+    flowSvg.insertBefore(rail, flowPulsePath);
   }
 
   function syncFlowDash() {
-    if (!flowPulsePath || !flowTextTargets.length) return;
-    var widestText = 0;
-    flowTextTargets.forEach(function (textTarget) {
-      widestText = Math.max(widestText, textTarget.getBoundingClientRect().width);
-    });
-    var dashLength = Math.max(76, Math.min(156, widestText * .16));
-    flowPulsePath.style.strokeDasharray = dashLength + ' ' + (1000 - dashLength);
+    if (!flowPulsePath) return;
+    flowPulsePath.style.strokeDasharray = '1';
   }
 
   function syncFlowSpeed(flowProgress) {
@@ -85,7 +86,7 @@
 
   if (flowPulsePath) {
     flowPulsePath.removeAttribute('d');
-    flowPulsePath.style.strokeDashoffset = '1000';
+    flowPulsePath.style.strokeDashoffset = '1';
     syncFlowDash();
     buildFlowPath();
     window.addEventListener('resize', syncFlowDash);
@@ -305,8 +306,7 @@
     flowPosition = flowTarget;
     syncFlowSpeed(flowPosition);
     flowPulses.forEach(function (flowPulse) {
-      flowPulse.style.strokeDashoffset = String(1000 - (flowPosition * 1000));
-      flowPulse.style.opacity = String(.72 + (flowPosition * .78));
+      flowPulse.style.strokeDashoffset = String(1 - flowPosition);
     });
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
