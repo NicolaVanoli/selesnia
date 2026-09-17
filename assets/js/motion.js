@@ -34,8 +34,8 @@
       var sectionBounds = sectionNode.getBoundingClientRect();
       var textNode = sectionNode.querySelector('.section-grid, .page-content > .section-grid') || sectionNode.firstElementChild;
       var textBounds = textNode ? textNode.getBoundingClientRect() : sectionBounds;
-      var leftSafeX = textBounds.left - flowBounds.left - 30;
-      var rightSafeX = textBounds.right - flowBounds.left + 30;
+      var leftSafeX = textBounds.left - flowBounds.left + 350;
+      var rightSafeX = textBounds.right - flowBounds.left - 350;
       var safeX = index % 2 === 0 ? leftSafeX : rightSafeX;
 
       return {
