@@ -4,8 +4,8 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
-  var flowPulses = document.querySelectorAll('.flow-pulse__main');
   var flowPulsePath = document.querySelector('.flow-pulse__main');
+  var flowRailPath;
   var flowContainer = document.querySelector('.flow-pulse');
   var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
   var scrollTitlePositions = [];
@@ -14,9 +14,6 @@
   var scrollProgressBar;
   var flowTarget = 0;
   var flowPosition = 0;
-  var flowSpeedDuration = '.5s';
-  var flowClipRect;
-  var flowTextTargets = document.querySelectorAll('.section-heading, .section-lead, .section-body, .service-row h2, .team-card h2, .contact-detail a');
 
   function buildFlowPath() {
     if (!flowPulsePath || !flowContainer || !flowContainer.parentElement) return;
@@ -58,36 +55,31 @@
 
     flowPulsePath.removeAttribute('d');
     flowSvg.setAttribute('viewBox', '0 0 1000 1400');
-    flowPulsePath.setAttribute('d', path);
-    var flowDefs = flowSvg.querySelector('defs');
-    if (!flowDefs) {
-      flowDefs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-      flowSvg.insertBefore(flowDefs, flowSvg.firstChild);
-    }
-    var flowClip = flowDefs.querySelector('#flow-pulse-clip');
-    if (!flowClip) {
-      flowClip = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
-      flowClip.setAttribute('id', 'flow-pulse-clip');
-      flowClipRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      flowClipRect.setAttribute('x', '0');
-      flowClipRect.setAttribute('y', '0');
-      flowClipRect.setAttribute('width', '1000');
-      flowClip.appendChild(flowClipRect);
-      flowDefs.appendChild(flowClip);
-    } else {
-      flowClipRect = flowClip.querySelector('rect');
-    }
-    flowPulsePath.setAttribute('clip-path', 'url(#flow-pulse-clip)');
     flowContainer.querySelectorAll('.flow-pulse__rail').forEach(function (rail) { rail.remove(); });
     var rail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     rail.setAttribute('class', 'flow-pulse__rail');
     rail.setAttribute('d', path);
     flowSvg.insertBefore(rail, flowPulsePath);
+    flowRailPath = rail;
+    flowPulsePath.setAttribute('d', path);
   }
 
-  function syncFlowSpeed() {
-    if (!flowPulsePath) return;
-    flowPulsePath.style.setProperty('--flow-pulse-duration', flowSpeedDuration);
+  function updateIlluminatedFlow(progress) {
+    if (!flowPulsePath || !flowRailPath) return;
+
+    var pathLength = flowRailPath.getTotalLength();
+    var visibleLength = Math.max(0, Math.min(pathLength, progress * pathLength));
+    var sampleDistance = Math.max(8, pathLength / 180);
+    var illuminatedPath = '';
+
+    for (var distance = 0; distance <= visibleLength; distance += sampleDistance) {
+      var point = flowRailPath.getPointAtLength(distance);
+      illuminatedPath += (distance === 0 ? 'M' : ' L') + point.x.toFixed(2) + ' ' + point.y.toFixed(2);
+    }
+
+    var endPoint = flowRailPath.getPointAtLength(visibleLength);
+    if (!illuminatedPath) illuminatedPath = 'M' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2);
+    flowPulsePath.setAttribute('d', illuminatedPath + ' L' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2));
   }
 
   if (flowPulsePath) {
@@ -307,8 +299,7 @@
     }
     flowTarget = flowProgress;
     flowPosition = flowTarget;
-    syncFlowSpeed();
-    if (flowClipRect) flowClipRect.setAttribute('height', String(flowPosition * 1400));
+    updateIlluminatedFlow(flowPosition);
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
       var heroProgress = Math.min(window.scrollY / window.innerHeight, 1);
