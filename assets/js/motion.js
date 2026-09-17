@@ -82,8 +82,7 @@
       var centerY = height * .38;
 
       filaments.forEach(function (filament) {
-        context.beginPath();
-        context.moveTo(centerX, centerY);
+        var points = [{ x: centerX, y: centerY }];
 
         for (var pointIndex = 1; pointIndex <= 32; pointIndex += 1) {
           var progress = pointIndex / 32;
@@ -100,7 +99,7 @@
             var mouseDistance = Math.sqrt(mouseDistanceX * mouseDistanceX + mouseDistanceY * mouseDistanceY);
             var influence = Math.exp(-(mouseDistance * mouseDistance) / (2 * 210 * 210));
             var mouseNormalDistance = (mouseDistanceX * normalX + mouseDistanceY * normalY) / (mouseDistance || 1);
-            interaction = influence * mouseNormalDistance * 92;
+            interaction = influence * mouseNormalDistance * 48;
             wave += interaction * Math.sin(progress * Math.PI);
           }
 
@@ -110,9 +109,19 @@
             pointX = filament.endX;
             pointY = filament.endY;
           }
-          context.lineTo(pointX, pointY);
+          points.push({ x: pointX, y: pointY });
         }
 
+        context.beginPath();
+        context.moveTo(points[0].x, points[0].y);
+        for (var curveIndex = 1; curveIndex < points.length - 1; curveIndex += 1) {
+          var midpointX = (points[curveIndex].x + points[curveIndex + 1].x) * .5;
+          var midpointY = (points[curveIndex].y + points[curveIndex + 1].y) * .5;
+          context.quadraticCurveTo(points[curveIndex].x, points[curveIndex].y, midpointX, midpointY);
+        }
+        var finalPoint = points[points.length - 1];
+        var previousPoint = points[points.length - 2];
+        context.quadraticCurveTo(previousPoint.x, previousPoint.y, finalPoint.x, finalPoint.y);
         context.strokeStyle = 'rgba(180, 239, 255, ' + (.24 + Math.abs(Math.sin(filament.phase)) * .18) + ')';
         context.lineWidth = filament.width;
         context.stroke();
