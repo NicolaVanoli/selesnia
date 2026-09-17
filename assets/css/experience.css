@@ -260,13 +260,6 @@ main { position: relative; }
   position: relative;
   z-index: 1;
 }
-.experience-hero::after {
-  border: 1px solid rgba(176, 235, 255, .35);
-  content: "";
-  inset: 24px;
-  pointer-events: none;
-  position: absolute;
-}
 .experience-hero::before { background: rgba(25, 201, 255, .14); box-shadow: 0 0 90px rgba(0, 125, 255, .18); content: ""; height: 42vw; max-height: 680px; max-width: 680px; position: absolute; right: -14vw; top: 16vh; transform: rotate(24deg) translateY(calc(var(--hero-progress, 0) * -80px)); transition: transform .1s linear; width: 42vw; }
 .hero-content, .experience-section > *, .page-hero > * { position: relative; z-index: 3; }
 .hero-content {
@@ -374,7 +367,6 @@ main { position: relative; }
 @media (max-width: 700px) {
   .experience-nav-links { gap: 12px; }
   .experience-nav-links a { font-size: .62rem; }
-  .experience-hero::after { inset: 12px; }
   .hero-content { padding-left: 28px; padding-right: 28px; }
   .section-grid, .proof-layout { grid-template-columns: 1fr; }
   #products .section-grid { grid-template-columns: 1fr; }
