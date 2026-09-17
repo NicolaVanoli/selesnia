@@ -256,6 +256,10 @@ main { position: relative; }
 .experience-section.signal { background: var(--signal); color: var(--ink); }
 .section-grid { display: grid; gap: 8vw; grid-template-columns: minmax(180px, .6fr) minmax(0, 1.4fr); }
 .section-kicker { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; }
+#products .section-grid { grid-template-columns: minmax(0, 1.4fr) minmax(180px, .6fr); }
+#products .section-kicker { grid-column: 2; grid-row: 1; text-align: right; }
+#products .section-grid > div { grid-column: 1; grid-row: 1; }
+#contact .section-kicker { text-align: right; }
 .section-heading { font: 700 clamp(2.7rem, 6vw, 7rem)/.88 var(--display); letter-spacing: -.06em; margin: 0; text-transform: uppercase; }
 .section-lead { font-size: clamp(1.3rem, 2.6vw, 2.6rem); line-height: 1.1; margin: 0 0 38px; max-width: 720px; }
 .section-body { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 620px; }
@@ -324,6 +328,9 @@ main { position: relative; }
   .experience-hero::after { inset: 12px; }
   .hero-content { padding-left: 28px; padding-right: 28px; }
   .section-grid, .proof-layout { grid-template-columns: 1fr; }
+  #products .section-grid { grid-template-columns: 1fr; }
+  #products .section-kicker, #products .section-grid > div { grid-column: auto; grid-row: auto; text-align: left; }
+  #contact .section-kicker { text-align: left; }
   .product-row { grid-template-columns: 42px 1fr; }
   .product-description { grid-column: 2; }
   .experience-section { padding-left: 28px; padding-right: 28px; }
