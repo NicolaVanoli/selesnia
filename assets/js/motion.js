@@ -48,14 +48,14 @@
       var nextPoint = points[index + 1];
       if (nextPoint) {
         var horizontalDirection = nextPoint.x >= point.x ? 1 : -1;
-        var diagonalLength = Math.min(40, Math.abs(nextPoint.x - point.x) * .25);
-        var diagonalStartX = point.x + horizontalDirection * diagonalLength;
-        var diagonalEndX = nextPoint.x - horizontalDirection * diagonalLength;
-        path += ' V' + (point.endY - diagonalLength).toFixed(2);
-        path += ' L' + diagonalStartX.toFixed(2) + ' ' + point.endY.toFixed(2);
-        path += ' H' + diagonalEndX.toFixed(2);
-        path += ' L' + nextPoint.x.toFixed(2) + ' ' + (point.endY + diagonalLength).toFixed(2);
-        path += ' V' + (nextPoint.endY - diagonalLength).toFixed(2);
+        var cornerRadius = Math.min(36, Math.abs(nextPoint.x - point.x) * .25);
+        var horizontalStartX = point.x + horizontalDirection * cornerRadius;
+        var horizontalEndX = nextPoint.x - horizontalDirection * cornerRadius;
+        path += ' V' + (point.endY - cornerRadius).toFixed(2);
+        path += ' Q' + point.x.toFixed(2) + ' ' + point.endY.toFixed(2) + ' ' + horizontalStartX.toFixed(2) + ' ' + point.endY.toFixed(2);
+        path += ' H' + horizontalEndX.toFixed(2);
+        path += ' Q' + nextPoint.x.toFixed(2) + ' ' + point.endY.toFixed(2) + ' ' + nextPoint.x.toFixed(2) + ' ' + (point.endY + cornerRadius).toFixed(2);
+        path += ' V' + (nextPoint.endY - cornerRadius).toFixed(2);
       } else {
         path += ' V' + point.endY.toFixed(2);
       }
@@ -78,16 +78,28 @@
     var pathLength = flowRailPath.getTotalLength();
     var visibleLength = Math.max(0, Math.min(pathLength, progress * pathLength));
     var sampleDistance = Math.max(8, pathLength / 180);
-    var illuminatedPath = '';
+    var points = [];
 
     for (var distance = 0; distance <= visibleLength; distance += sampleDistance) {
-      var point = flowRailPath.getPointAtLength(distance);
-      illuminatedPath += (distance === 0 ? 'M' : ' L') + point.x.toFixed(2) + ' ' + point.y.toFixed(2);
+      points.push(flowRailPath.getPointAtLength(distance));
     }
 
     var endPoint = flowRailPath.getPointAtLength(visibleLength);
-    if (!illuminatedPath) illuminatedPath = 'M' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2);
-    flowPulsePath.setAttribute('d', illuminatedPath + ' L' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2));
+    if (!points.length) points.push(endPoint);
+    points.push(endPoint);
+
+    var illuminatedPath = 'M' + points[0].x.toFixed(2) + ' ' + points[0].y.toFixed(2);
+    for (var pointIndex = 1; pointIndex < points.length - 1; pointIndex += 1) {
+      var currentPoint = points[pointIndex];
+      var followingPoint = points[pointIndex + 1];
+      var midpointX = (currentPoint.x + followingPoint.x) * .5;
+      var midpointY = (currentPoint.y + followingPoint.y) * .5;
+      illuminatedPath += ' Q' + currentPoint.x.toFixed(2) + ' ' + currentPoint.y.toFixed(2) + ' ' + midpointX.toFixed(2) + ' ' + midpointY.toFixed(2);
+    }
+
+    var finalControlPoint = points[points.length - 1];
+    illuminatedPath += ' Q' + finalControlPoint.x.toFixed(2) + ' ' + finalControlPoint.y.toFixed(2) + ' ' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2);
+    flowPulsePath.setAttribute('d', illuminatedPath);
   }
 
   if (flowPulsePath) {
