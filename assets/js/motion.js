@@ -5,6 +5,7 @@
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
   var flowPulsePath = document.querySelector('.flow-pulse__main');
+  var flowSecondaryPath = document.querySelector('.flow-pulse__secondary');
   var flowRailPath;
   var flowContainer = document.querySelector('.flow-pulse');
   var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
@@ -70,10 +71,11 @@
     flowSvg.insertBefore(rail, flowPulsePath);
     flowRailPath = rail;
     flowPulsePath.setAttribute('d', path);
+    if (flowSecondaryPath) flowSecondaryPath.setAttribute('d', path);
   }
 
-  function updateIlluminatedFlow(progress) {
-    if (!flowPulsePath || !flowRailPath) return;
+  function updateIlluminatedFlow(pathTarget, progress) {
+    if (!pathTarget || !flowRailPath) return;
 
     var pathLength = flowRailPath.getTotalLength();
     var visibleLength = Math.max(0, Math.min(pathLength, progress * pathLength));
@@ -99,7 +101,7 @@
 
     var finalControlPoint = points[points.length - 1];
     illuminatedPath += ' Q' + finalControlPoint.x.toFixed(2) + ' ' + finalControlPoint.y.toFixed(2) + ' ' + endPoint.x.toFixed(2) + ' ' + endPoint.y.toFixed(2);
-    flowPulsePath.setAttribute('d', illuminatedPath);
+    pathTarget.setAttribute('d', illuminatedPath);
   }
 
   if (flowPulsePath) {
@@ -319,7 +321,8 @@
     }
     flowTarget = flowProgress;
     flowPosition = flowTarget;
-    updateIlluminatedFlow(flowPosition);
+    updateIlluminatedFlow(flowPulsePath, flowPosition);
+    updateIlluminatedFlow(flowSecondaryPath, Math.max(0, flowPosition - .08));
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
       var heroProgress = Math.min(window.scrollY / window.innerHeight, 1);
