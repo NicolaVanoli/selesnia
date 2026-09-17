@@ -9,7 +9,7 @@
 	padding: 0px;
 }
 .price-table .col-sm-3:hover .price-title{
-	color: #4a148c;
+	color: #0079b8;
 }
 .price-title{
 	background: #f9f9f9;
@@ -55,6 +55,6 @@
 }
 .price-table .col-sm-3:hover .custom-btn-default{
 	color: #fff;
-	background: #4a148c;
+	background: #0079b8;
 	transition: all .4s ease-in-out;
 }
