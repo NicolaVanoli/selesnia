@@ -59,7 +59,7 @@ main { position: relative; }
 }
 .flow-pulse svg { height: 100%; overflow: visible; width: 100%; }
 .flow-pulse path { fill: none; vector-effect: non-scaling-stroke; }
-.flow-pulse__rail { stroke: rgba(142, 178, 201, .42); stroke-width: 2; }
+.flow-pulse__rail { display: none; }
 .flow-pulse__main {
   filter: drop-shadow(0 0 7px rgba(25, 201, 255, .78));
   opacity: .95;

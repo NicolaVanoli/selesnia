@@ -46,10 +46,18 @@
     var path = 'M' + firstPoint.x.toFixed(2) + ' 0 V' + firstPoint.startY.toFixed(2);
     points.forEach(function (point, index) {
       var nextPoint = points[index + 1];
-      path += ' V' + point.endY.toFixed(2);
       if (nextPoint) {
-        var midpoint = (point.endY + nextPoint.startY) * .5;
-        path += ' C' + point.x.toFixed(2) + ' ' + midpoint.toFixed(2) + ' ' + nextPoint.x.toFixed(2) + ' ' + midpoint.toFixed(2) + ' ' + nextPoint.x.toFixed(2) + ' ' + nextPoint.startY.toFixed(2);
+        var horizontalDirection = nextPoint.x >= point.x ? 1 : -1;
+        var diagonalLength = Math.min(40, Math.abs(nextPoint.x - point.x) * .25);
+        var diagonalStartX = point.x + horizontalDirection * diagonalLength;
+        var diagonalEndX = nextPoint.x - horizontalDirection * diagonalLength;
+        path += ' V' + (point.endY - diagonalLength).toFixed(2);
+        path += ' L' + diagonalStartX.toFixed(2) + ' ' + point.endY.toFixed(2);
+        path += ' H' + diagonalEndX.toFixed(2);
+        path += ' L' + nextPoint.x.toFixed(2) + ' ' + (point.endY + diagonalLength).toFixed(2);
+        path += ' V' + (nextPoint.endY - diagonalLength).toFixed(2);
+      } else {
+        path += ' V' + point.endY.toFixed(2);
       }
     });
 
