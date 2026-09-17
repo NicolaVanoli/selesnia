@@ -15,6 +15,7 @@
   var flowTarget = 0;
   var flowPosition = 0;
   var flowSpeedDuration = '.5s';
+  var flowClipRect;
   var flowTextTargets = document.querySelectorAll('.section-heading, .section-lead, .section-body, .service-row h2, .team-card h2, .contact-detail a');
 
   function buildFlowPath() {
@@ -58,18 +59,30 @@
     flowPulsePath.removeAttribute('d');
     flowSvg.setAttribute('viewBox', '0 0 1000 1400');
     flowPulsePath.setAttribute('d', path);
-    flowPulsePath.setAttribute('pathLength', '1');
+    var flowDefs = flowSvg.querySelector('defs');
+    if (!flowDefs) {
+      flowDefs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      flowSvg.insertBefore(flowDefs, flowSvg.firstChild);
+    }
+    var flowClip = flowDefs.querySelector('#flow-pulse-clip');
+    if (!flowClip) {
+      flowClip = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+      flowClip.setAttribute('id', 'flow-pulse-clip');
+      flowClipRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      flowClipRect.setAttribute('x', '0');
+      flowClipRect.setAttribute('y', '0');
+      flowClipRect.setAttribute('width', '1000');
+      flowClip.appendChild(flowClipRect);
+      flowDefs.appendChild(flowClip);
+    } else {
+      flowClipRect = flowClip.querySelector('rect');
+    }
+    flowPulsePath.setAttribute('clip-path', 'url(#flow-pulse-clip)');
     flowContainer.querySelectorAll('.flow-pulse__rail').forEach(function (rail) { rail.remove(); });
     var rail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     rail.setAttribute('class', 'flow-pulse__rail');
     rail.setAttribute('d', path);
-    rail.setAttribute('pathLength', '1');
     flowSvg.insertBefore(rail, flowPulsePath);
-  }
-
-  function syncFlowDash() {
-    if (!flowPulsePath) return;
-    flowPulsePath.style.strokeDasharray = '1';
   }
 
   function syncFlowSpeed() {
@@ -79,10 +92,7 @@
 
   if (flowPulsePath) {
     flowPulsePath.removeAttribute('d');
-    flowPulsePath.style.strokeDashoffset = '1';
-    syncFlowDash();
     buildFlowPath();
-    window.addEventListener('resize', syncFlowDash);
     window.addEventListener('resize', buildFlowPath);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFlowPath);
   }
@@ -298,9 +308,7 @@
     flowTarget = flowProgress;
     flowPosition = flowTarget;
     syncFlowSpeed();
-    flowPulses.forEach(function (flowPulse) {
-      flowPulse.style.strokeDashoffset = String(1 - flowPosition);
-    });
+    if (flowClipRect) flowClipRect.setAttribute('height', String(flowPosition * 1400));
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
       var heroProgress = Math.min(window.scrollY / window.innerHeight, 1);
