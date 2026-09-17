@@ -6,7 +6,20 @@
   var navigation = document.querySelector('.experience-nav');
   var flowPulses = document.querySelectorAll('.flow-pulse__main');
   var flowContainer = document.querySelector('.flow-pulse');
+  var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
+  var scrollTitlePositions = [];
   var scrollStopTimer;
+
+  scrollTitles.forEach(function (title) {
+    title.classList.add('scroll-title');
+    var titlePosition = title;
+    var documentTop = 0;
+    while (titlePosition) {
+      documentTop += titlePosition.offsetTop;
+      titlePosition = titlePosition.offsetParent;
+    }
+    scrollTitlePositions.push(documentTop);
+  });
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
     revealItems.forEach(function (item) { item.classList.add('is-visible'); });
@@ -45,6 +58,11 @@
       heroTitle.style.transform = 'translate3d(0, ' + (heroProgress * 80) + 'px, 0)';
       hero.style.setProperty('--hero-progress', heroProgress);
     }
+    scrollTitles.forEach(function (title, index) {
+      var titleProgress = (window.scrollY + window.innerHeight * .5 - scrollTitlePositions[index] - title.offsetHeight * .5) / window.innerHeight;
+      var titleOffset = Math.max(-40, Math.min(40, titleProgress * 28));
+      title.style.transform = 'translate3d(0, ' + titleOffset + 'px, 0)';
+    });
     ticking = false;
   }
   window.addEventListener('scroll', function () {

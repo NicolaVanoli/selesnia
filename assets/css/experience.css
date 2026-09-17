@@ -300,8 +300,10 @@ main { position: relative; }
 
 [data-reveal] { opacity: 0; transform: translateY(45px); }
 [data-reveal].is-visible { opacity: 1; transform: none; transition: opacity .85s ease, transform .85s cubic-bezier(.22, .61, .36, 1); }
+[data-reveal].is-visible.scroll-title { transition: opacity .85s ease, transform .12s linear; }
 [data-stagger] > * { opacity: 0; transform: translateY(25px); }
 [data-stagger].is-visible > * { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+[data-stagger].is-visible > .scroll-title { transition: opacity .6s ease, transform .12s linear; }
 [data-stagger].is-visible > *:nth-child(2) { transition-delay: .08s; }
 [data-stagger].is-visible > *:nth-child(3) { transition-delay: .16s; }
 [data-stagger].is-visible > *:nth-child(4) { transition-delay: .24s; }
