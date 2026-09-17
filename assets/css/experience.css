@@ -188,7 +188,7 @@ main { position: relative; }
 .side {
   align-items: center;
   display: flex;
-  font-size: .78rem;
+  font-size: 1.1rem;
   font-weight: 700;
   height: 62px;
   justify-content: center;
@@ -301,7 +301,6 @@ main { position: relative; }
   position: relative;
   z-index: 1;
 }
-.experience-hero::before { background: rgba(25, 201, 255, .14); box-shadow: 0 0 90px rgba(0, 125, 255, .18); content: ""; height: 42vw; max-height: 680px; max-width: 680px; position: absolute; right: -14vw; top: 16vh; transform: rotate(24deg) translateY(calc(var(--hero-progress, 0) * -80px)); transition: transform .1s linear; width: 42vw; }
 .hero-content, .experience-section > *, .page-hero > * { position: relative; z-index: 3; }
 .experience-section > *, .page-content > *:not(.flow-pulse) {
   background: var(--paper-soft);
