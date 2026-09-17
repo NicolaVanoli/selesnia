@@ -5,7 +5,7 @@
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
   var flowPulsePath = document.querySelector('.flow-pulse__main');
-  var flowSecondaryPath = document.querySelector('.flow-pulse__secondary');
+  var flowSecondaryPaths = document.querySelectorAll('.flow-pulse__secondary');
   var flowRailPath;
   var flowContainer = document.querySelector('.flow-pulse');
   var scrollTitles = document.querySelectorAll('.section-heading, .cta-heading, .service-row h2, .team-card h2');
@@ -71,7 +71,7 @@
     flowSvg.insertBefore(rail, flowPulsePath);
     flowRailPath = rail;
     flowPulsePath.setAttribute('d', path);
-    if (flowSecondaryPath) flowSecondaryPath.setAttribute('d', path);
+    flowSecondaryPaths.forEach(function (secondaryPath) { secondaryPath.setAttribute('d', path); });
   }
 
   function updateIlluminatedFlow(pathTarget, progress) {
@@ -322,7 +322,9 @@
     flowTarget = flowProgress;
     flowPosition = flowTarget;
     updateIlluminatedFlow(flowPulsePath, flowPosition);
-    updateIlluminatedFlow(flowSecondaryPath, Math.max(0, flowPosition - .08));
+    flowSecondaryPaths.forEach(function (secondaryPath, index) {
+      updateIlluminatedFlow(secondaryPath, Math.max(0, flowPosition - (.035 + index * .02)));
+    });
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
       var heroProgress = Math.min(window.scrollY / window.innerHeight, 1);

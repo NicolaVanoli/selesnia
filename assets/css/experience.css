@@ -76,6 +76,20 @@ main { position: relative; }
   stroke-width: 3.5;
   transform: translate(14px, 0);
 }
+.flow-pulse__secondary--echo {
+  filter: drop-shadow(0 0 5px rgba(25, 201, 255, .3));
+  opacity: .24;
+  stroke: #70ddff;
+  stroke-width: 2.2;
+  transform: translate(28px, 7px);
+}
+.flow-pulse__secondary--drift {
+  filter: drop-shadow(0 0 5px rgba(25, 201, 255, .24));
+  opacity: .2;
+  stroke: #159acb;
+  stroke-width: 2;
+  transform: translate(-12px, -6px);
+}
 .experience-page a { color: inherit; }
 .experience-page .legacy-shell { display: none; }
 
