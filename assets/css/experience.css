@@ -147,7 +147,7 @@ main { position: relative; }
   width: 100%;
 }
 .top {
-  background: #49c5ff;
+  background: #2081ad;
   color: var(--ink);
   transform: rotateX(90deg) translateZ(23.5px);
 }
@@ -158,12 +158,12 @@ main { position: relative; }
 }
 .experience-nav-center a[aria-current="page"] .front,
 .experience-nav-links a[aria-current="page"] .front {
-  background: #49c5ff;
+  background: #2081ad;
   color: var(--ink);
 }
 .experience-nav-center a[aria-current="page"] .top,
 .experience-nav-links a[aria-current="page"] .top {
-  background: #49c5ff;
+  background: #2081ad;
 }
 @media (max-width: 700px) {
   .experience-nav-shell {
