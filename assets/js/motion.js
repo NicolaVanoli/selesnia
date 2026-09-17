@@ -11,6 +11,40 @@
   var scrollStopTimer;
   var filamentCanvas = document.querySelector('.hero-filaments');
 
+  function initMobileMenu() {
+    var navigation = document.querySelector('.experience-nav');
+    var menu = document.querySelector('.experience-nav-center, .experience-nav-links');
+    if (!navigation || !menu) return;
+
+    menu.id = 'mobile-navigation';
+    var toggle = document.createElement('button');
+    toggle.className = 'mobile-menu-toggle';
+    toggle.type = 'button';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'mobile-navigation');
+    toggle.innerHTML = '<span></span><span></span><span></span><b>menu</b>';
+    (navigation.querySelector('.experience-nav-shell') || navigation).appendChild(toggle);
+
+    function closeMenu() {
+      navigation.classList.remove('is-menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', function () {
+      var isOpen = navigation.classList.toggle('is-menu-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    menu.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', closeMenu); });
+    document.addEventListener('click', function (event) {
+      if (!navigation.contains(event.target)) closeMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMenu();
+    });
+  }
+
+  initMobileMenu();
+
   scrollTitles.forEach(function (title) {
     title.classList.add('scroll-title');
     var titlePosition = title;
