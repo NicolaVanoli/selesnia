@@ -110,8 +110,8 @@ main { position: relative; }
   display: flex;
   gap: 12px;
   justify-content: flex-start;
-  min-height: 58px;
-  padding: 8px 12px;
+  min-height: 76px;
+  padding: 14px 18px;
   width: min(100%, 1180px);
   margin: 0 auto;
   box-sizing: border-box;
@@ -144,10 +144,10 @@ main { position: relative; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font: 700 .9rem/1 var(--body);
-  letter-spacing: .12em;
-  min-height: 38px;
-  padding: 10px 14px 8px;
+  font: 700 1rem/1 var(--body);
+  letter-spacing: .14em;
+  min-height: 44px;
+  padding: 12px 18px 10px;
   text-decoration: none;
   text-transform: lowercase;
   background: transparent;
@@ -157,8 +157,8 @@ main { position: relative; }
   border: 0;
   cursor: pointer;
   display: block;
-  flex: 0 0 122px;
-  height: 53px;
+  flex: 0 0 138px;
+  height: 64px;
   overflow: visible;
   padding: 0;
   perspective: 600px;
@@ -167,8 +167,8 @@ main { position: relative; }
 }
 .cube {
   display: block;
-  height: 47px;
-  width: 116px;
+  height: 56px;
+  width: 132px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform .4s;
@@ -188,11 +188,11 @@ main { position: relative; }
 .side {
   align-items: center;
   display: flex;
-  font-size: .64rem;
+  font-size: .72rem;
   font-weight: 700;
-  height: 47px;
+  height: 56px;
   justify-content: center;
-  letter-spacing: .08em;
+  letter-spacing: .09em;
   position: absolute;
   text-transform: uppercase;
   white-space: nowrap;
@@ -201,12 +201,12 @@ main { position: relative; }
 .top {
   background: #46b3e6;
   color: var(--ink);
-  transform: rotateX(90deg) translateZ(23.5px);
+  transform: rotateX(90deg) translateZ(28px);
 }
 .front {
   background: #222229;
   color: var(--paper);
-  transform: translateZ(23.5px);
+  transform: translateZ(28px);
 }
 .experience-nav-center a[aria-current="page"] .front,
 .experience-nav-links a[aria-current="page"] .front {
