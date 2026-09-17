@@ -14,6 +14,7 @@
   var scrollProgressBar;
   var flowTarget = 0;
   var flowPosition = 0;
+  var flowSpeedDuration = '.5s';
   var flowTextTargets = document.querySelectorAll('.section-heading, .section-lead, .section-body, .service-row h2, .team-card h2, .contact-detail a');
 
   function buildFlowPath() {
@@ -71,17 +72,9 @@
     flowPulsePath.style.strokeDasharray = '1';
   }
 
-  function syncFlowSpeed(flowProgress) {
+  function syncFlowSpeed() {
     if (!flowPulsePath) return;
-    var pathLength = flowPulsePath.getTotalLength();
-    var pointLength = Math.max(0, Math.min(pathLength, flowProgress * pathLength));
-    var sampleDistance = Math.max(4, pathLength * .012);
-    var previousPoint = flowPulsePath.getPointAtLength(Math.max(0, pointLength - sampleDistance));
-    var nextPoint = flowPulsePath.getPointAtLength(Math.min(pathLength, pointLength + sampleDistance));
-    var horizontalTravel = Math.abs(nextPoint.x - previousPoint.x);
-    var verticalTravel = Math.abs(nextPoint.y - previousPoint.y);
-    var isHorizontal = horizontalTravel > verticalTravel * 1.25;
-    flowPulsePath.style.setProperty('--flow-pulse-duration', isHorizontal ? '.14s' : '.65s');
+    flowPulsePath.style.setProperty('--flow-pulse-duration', flowSpeedDuration);
   }
 
   if (flowPulsePath) {
@@ -304,7 +297,7 @@
     }
     flowTarget = flowProgress;
     flowPosition = flowTarget;
-    syncFlowSpeed(flowPosition);
+    syncFlowSpeed();
     flowPulses.forEach(function (flowPulse) {
       flowPulse.style.strokeDashoffset = String(1 - flowPosition);
     });
