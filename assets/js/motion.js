@@ -4,6 +4,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealItems = document.querySelectorAll('[data-reveal], [data-stagger]');
   var navigation = document.querySelector('.experience-nav');
+  var flowPulse = document.querySelector('.flow-pulse__main');
   var scrollStopTimer;
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -27,6 +28,10 @@
   function updateScrollState() {
     var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     var scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+    if (flowPulse) {
+      flowPulse.style.strokeDashoffset = String(1000 - (scrollProgress * 1120));
+      flowPulse.style.opacity = String(.18 + (scrollProgress * .82));
+    }
     if (navigation) navigation.classList.toggle('is-scrolled', window.scrollY > 40);
     if (hero && heroTitle) {
       var heroProgress = Math.min(window.scrollY / window.innerHeight, 1);

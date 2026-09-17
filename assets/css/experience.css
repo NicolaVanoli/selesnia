@@ -19,6 +19,26 @@ body.experience-page {
   overflow-x: hidden;
   position: relative;
 }
+.flow-pulse {
+  height: 100svh;
+  inset: 0;
+  opacity: .72;
+  pointer-events: none;
+  position: fixed;
+  z-index: 2;
+}
+.flow-pulse svg { height: 100%; overflow: visible; width: 100%; }
+.flow-pulse path { fill: none; vector-effect: non-scaling-stroke; }
+.flow-pulse__rail { stroke: rgba(244, 240, 232, .14); stroke-width: 1; }
+.flow-pulse__main {
+  filter: drop-shadow(0 0 5px rgba(255, 90, 54, .72));
+  stroke: var(--signal);
+  stroke-dasharray: 120 880;
+  stroke-dashoffset: 1000;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+  transition: opacity .25s ease;
+}
 .experience-page a { color: inherit; }
 .experience-page .legacy-shell { display: none; }
 
@@ -193,4 +213,5 @@ body.experience-page {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   [data-reveal], [data-stagger] > * { opacity: 1; transform: none; }
   .experience-nav.is-scrolled { transition: none; }
+  .flow-pulse { display: none; }
 }
