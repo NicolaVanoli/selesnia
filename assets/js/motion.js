@@ -10,6 +10,20 @@
   var scrollTitlePositions = [];
   var scrollStopTimer;
   var filamentCanvas = document.querySelector('.hero-filaments');
+  var scrollProgressBar;
+
+  function initScrollProgress() {
+    scrollProgressBar = document.createElement('div');
+    scrollProgressBar.className = 'scroll-progress';
+    scrollProgressBar.setAttribute('role', 'progressbar');
+    scrollProgressBar.setAttribute('aria-label', 'Avanzamento della pagina');
+    scrollProgressBar.setAttribute('aria-valuemin', '0');
+    scrollProgressBar.setAttribute('aria-valuemax', '100');
+    scrollProgressBar.innerHTML = '<span></span>';
+    document.body.appendChild(scrollProgressBar);
+  }
+
+  initScrollProgress();
 
   function initMobileMenu() {
     var navigation = document.querySelector('.experience-nav');
@@ -194,6 +208,11 @@
   function updateScrollState() {
     var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     var scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+    if (scrollProgressBar) {
+      var progressPercent = Math.round(scrollProgress * 100);
+      scrollProgressBar.firstElementChild.style.transform = 'scaleX(' + scrollProgress + ')';
+      scrollProgressBar.setAttribute('aria-valuenow', String(progressPercent));
+    }
     var flowProgress = scrollProgress;
     if (flowContainer) {
       var flowStart = flowContainer.getBoundingClientRect().top + window.scrollY;

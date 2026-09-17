@@ -20,6 +20,25 @@ body.experience-page {
   position: relative;
 }
 main { position: relative; }
+.scroll-progress {
+  background: rgba(227, 248, 255, .16);
+  height: 2px;
+  inset: 0 0 auto;
+  pointer-events: none;
+  position: fixed;
+  transform: translateZ(0);
+  width: 100%;
+  z-index: 30;
+}
+.scroll-progress span {
+  background: var(--signal);
+  box-shadow: 0 0 8px rgba(25, 201, 255, .65);
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  width: 100%;
+}
 .flow-pulse {
   height: 100%;
   inset: 0;
@@ -281,17 +300,6 @@ main { position: relative; }
 }
 .hero-title span { color: var(--signal); display: block; }
 .hero-copy { font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: 1.5; max-width: 470px; }
-.hero-scroll {
-  align-items: center;
-  bottom: 44px;
-  display: flex;
-  font-size: .7rem;
-  gap: 12px;
-  letter-spacing: .16em;
-  position: absolute;
-  text-transform: uppercase;
-}
-.hero-scroll::before { background: var(--signal); content: ""; height: 1px; width: 46px; }
 
 .experience-section { background: var(--paper-soft); color: var(--paper); padding: clamp(90px, 13vw, 190px) clamp(22px, 9vw, 150px); position: relative; z-index: 1; }
 .experience-section.dark { background: var(--ink); color: var(--paper); }
