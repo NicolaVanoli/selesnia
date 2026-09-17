@@ -70,6 +70,19 @@
     flowPulsePath.style.strokeDasharray = dashLength + ' ' + (1000 - dashLength);
   }
 
+  function syncFlowSpeed(flowProgress) {
+    if (!flowPulsePath) return;
+    var pathLength = flowPulsePath.getTotalLength();
+    var pointLength = Math.max(0, Math.min(pathLength, flowProgress * pathLength));
+    var sampleDistance = Math.max(4, pathLength * .012);
+    var previousPoint = flowPulsePath.getPointAtLength(Math.max(0, pointLength - sampleDistance));
+    var nextPoint = flowPulsePath.getPointAtLength(Math.min(pathLength, pointLength + sampleDistance));
+    var horizontalTravel = Math.abs(nextPoint.x - previousPoint.x);
+    var verticalTravel = Math.abs(nextPoint.y - previousPoint.y);
+    var isHorizontal = horizontalTravel > verticalTravel * 1.25;
+    flowPulsePath.style.setProperty('--flow-pulse-duration', isHorizontal ? '.14s' : '.65s');
+  }
+
   if (flowPulsePath) {
     flowPulsePath.removeAttribute('d');
     flowPulsePath.style.strokeDashoffset = '1000';
@@ -266,13 +279,12 @@
       entry.target.classList.add('is-visible');
       observerInstance.unobserve(entry.target);
     });
-  }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold:0.04, rootMargin: '0px 0px -8% 0px' });
 
   revealItems.forEach(function (item) { observer.observe(item); });
 
   var hero = document.querySelector('.experience-hero');
   var heroTitle = document.querySelector('.hero-title');
-  var ticking = false;
   function updateScrollState() {
     var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     var scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
@@ -282,8 +294,16 @@
       scrollProgressBar.setAttribute('aria-valuenow', String(progressPercent));
     }
     var flowProgress = scrollProgress;
+    if (flowContainer && flowContainer.parentElement) {
+      var flowRoot = flowContainer.parentElement;
+      var flowRootTop = flowRoot.getBoundingClientRect().top + window.scrollY;
+      var flowRootHeight = Math.max(flowRoot.offsetHeight, 1);
+      var visualFocus = window.scrollY + window.innerHeight * .5;
+      flowProgress = Math.max(0, Math.min(1, (visualFocus - flowRootTop) / flowRootHeight));
+    }
     flowTarget = flowProgress;
     flowPosition = flowTarget;
+    syncFlowSpeed(flowPosition);
     flowPulses.forEach(function (flowPulse) {
       flowPulse.style.strokeDashoffset = String(1000 - (flowPosition * 1000));
       flowPulse.style.opacity = String(.72 + (flowPosition * .78));
@@ -299,11 +319,9 @@
       var titleOffset = Math.max(-40, Math.min(40, titleProgress * 2)) - 10;
       title.style.transform = 'translate3d(0, ' + titleOffset + 'px, 0)';
     });
-    ticking = false;
   }
   window.addEventListener('scroll', function () {
-    if (!ticking) window.requestAnimationFrame(updateScrollState);
-    ticking = true;
+    updateScrollState();
     document.body.classList.add('is-scrolling');
     window.clearTimeout(scrollStopTimer);
     scrollStopTimer = window.setTimeout(function () { document.body.classList.remove('is-scrolling'); }, 180);
